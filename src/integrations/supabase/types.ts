@@ -78,6 +78,42 @@ export interface Database {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          id: string
+          created_at: string
+          email: string | null
+          full_name: string | null
+          school: string | null
+          program: string | null
+          registration_number: string | null
+          phone: string | null
+          avatar_url: string | null
+        }
+        Insert: {
+          id: string
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          school?: string | null
+          program?: string | null
+          registration_number?: string | null
+          phone?: string | null
+          avatar_url?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          school?: string | null
+          program?: string | null
+          registration_number?: string | null
+          phone?: string | null
+          avatar_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
