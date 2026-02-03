@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LPU_DATA, getProgramsBySchool } from "@/data/lpuData";
+import { ArrowLeft } from "lucide-react";
 
 export function Signup() {
   const [selectedSchool, setSelectedSchool] = useState("");
@@ -31,7 +32,14 @@ export function Signup() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
-      <Card className="mx-auto max-w-2xl w-full">
+      <div className="w-full max-w-2xl space-y-4">
+        <Button variant="ghost" asChild>
+          <Link to="/" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+        <Card className="mx-auto max-w-2xl w-full">
         <CardHeader>
           <CardTitle className="text-xl">Sign Up</CardTitle>
           <CardDescription>
@@ -150,6 +158,7 @@ export function Signup() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

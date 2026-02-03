@@ -8,13 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UsersRound, Upload, CheckCircle, Loader2, Award, Target, Users, Sparkles } from "lucide-react";
+import { UsersRound, Upload, CheckCircle, Loader2, Award, Target, Users, Sparkles, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { v4 as uuidv4 } from 'uuid';
 import { z } from "zod";
 import confetti from "canvas-confetti";
+import { getAllSemesters, getAcademicYears, detectSemesterAndYear } from "@/utils/semesterUtils";
 
 const leadershipSchema = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(100),
@@ -27,6 +28,8 @@ const leadershipSchema = z.object({
   activityType: z.string().min(1, "Please select activity type"),
   impact: z.string().min(20, "Please describe the impact (minimum 20 characters)"),
   teamSize: z.string().optional(),
+  semester: z.string().min(1, "Please select semester"),
+  academicYear: z.string().min(1, "Please select academic year"),
 });
 
 const LeadershipAchievementForm = () => {
@@ -46,6 +49,8 @@ const LeadershipAchievementForm = () => {
     activityType: "",
     impact: "",
     teamSize: "",
+    semester: "",
+    academicYear: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -76,6 +81,21 @@ const LeadershipAchievementForm = () => {
   const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
   const [categoryCode, setCategoryCode] = useState<string>("");
   const [competitionScope, setCompetitionScope] = useState<"zonal" | "national">("zonal");
+
+  const semesterOptions = getAllSemesters();
+  const academicYearOptions = getAcademicYears();
+
+  // Auto-detect semester and academic year when date changes
+  useEffect(() => {
+    if (formData.date) {
+      const detected = detectSemesterAndYear(formData.date);
+      setFormData(prev => ({
+        ...prev,
+        semester: detected.semester,
+        academicYear: detected.academicYear
+      }));
+    }
+  }, [formData.date]);
 
   useEffect(() => {
     if (formData.level && formData.position) {
@@ -192,6 +212,8 @@ const LeadershipAchievementForm = () => {
         calculated_points: calculatedPoints,
         category_code: categoryCode,
         competition_scope: competitionScope,
+        semester: formData.semester,
+        academic_year: formData.academicYear,
         status: "pending",
       };
 
@@ -325,6 +347,53 @@ const LeadershipAchievementForm = () => {
                         className={errors.date ? "border-red-500" : ""}
                       />
                       {errors.date && <p className="text-sm text-red-500">{errors.date}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="semester" className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Semester *
+                      </Label>
+                      <Select value={formData.semester} onValueChange={(value) => setFormData({ ...formData, semester: value })}>
+                        <SelectTrigger className={errors.semester ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select semester" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {semesterOptions.map((sem) => (
+                            <SelectItem key={sem.value} value={sem.value}>
+                              {sem.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {formData.date && (
+                        <p className="text-xs text-muted-foreground">
+                          Auto-detected from achievement date
+                        </p>
+                      )}
+                      {errors.semester && <p className="text-sm text-red-500">{errors.semester}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="academicYear">Academic Year *</Label>
+                      <Select value={formData.academicYear} onValueChange={(value) => setFormData({ ...formData, academicYear: value })}>
+                        <SelectTrigger className={errors.academicYear ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select academic year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {academicYearOptions.map((year) => (
+                            <SelectItem key={year.value} value={year.value}>
+                              {year.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {formData.date && (
+                        <p className="text-xs text-muted-foreground">
+                          Auto-detected from achievement date
+                        </p>
+                      )}
+                      {errors.academicYear && <p className="text-sm text-red-500">{errors.academicYear}</p>}
                     </div>
 
                     <div className="space-y-2">

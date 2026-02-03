@@ -423,6 +423,18 @@ const BeyondAcademics = () => {
 
                 <Button
                   size="lg"
+                  variant="outline"
+                  className="group border-2 border-amber-500/20 hover:border-amber-500 hover:bg-amber-500/5 shadow-lg px-8 py-6 text-lg"
+                  asChild
+                >
+                  <Link to="/transcript">
+                    <Award className="w-6 h-6 mr-2 group-hover:scale-110 transition-transform" />
+                    View Transcript
+                  </Link>
+                </Button>
+
+                <Button
+                  size="lg"
                   variant="ghost"
                   className="group hover:bg-primary/5 px-8 py-6 text-lg"
                   asChild

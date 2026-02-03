@@ -79,6 +79,11 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto border-2" asChild>
+                <Link to="/transcript">
+                  View Transcript
+                </Link>
+              </Button>
+              <Button variant="outline" className="w-full sm:w-auto border-2" asChild>
                 <Link to="/beyond-academics-leaderboard">
                   View Leaderboard
                 </Link>

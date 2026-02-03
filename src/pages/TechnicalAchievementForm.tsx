@@ -8,13 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Code, Upload, CheckCircle, Loader2, Github, Link2, Award, Users } from "lucide-react";
+import { Code, Upload, CheckCircle, Loader2, Github, Link2, Award, Users, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { v4 as uuidv4 } from 'uuid';
 import { z } from "zod";
 import confetti from "canvas-confetti";
+import { getAllSemesters, getAcademicYears, detectSemesterAndYear } from "@/utils/semesterUtils";
 
 const technicalSchema = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(100),
@@ -28,6 +29,8 @@ const technicalSchema = z.object({
   projectLink: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
   githubRepo: z.string().url("Please enter a valid GitHub URL").optional().or(z.literal("")),
   teamSize: z.string().optional(),
+  semester: z.string().min(1, "Please select semester"),
+  academicYear: z.string().min(1, "Please select academic year"),
 });
 
 const TechnicalAchievementForm = () => {
@@ -47,6 +50,8 @@ const TechnicalAchievementForm = () => {
     projectLink: "",
     githubRepo: "",
     teamSize: "",
+    semester: "",
+    academicYear: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -60,9 +65,24 @@ const TechnicalAchievementForm = () => {
     { value: "certification", label: "Professional Certification" },
   ];
 
+  const semesterOptions = getAllSemesters();
+  const academicYearOptions = getAcademicYears();
+
   const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
   const [categoryCode, setCategoryCode] = useState<string>("");
   const [competitionScope, setCompetitionScope] = useState<"zonal" | "national">("zonal");
+
+  // Auto-detect semester and academic year when date changes
+  useEffect(() => {
+    if (formData.date) {
+      const detected = detectSemesterAndYear(formData.date);
+      setFormData(prev => ({
+        ...prev,
+        semester: detected.semester,
+        academicYear: detected.academicYear
+      }));
+    }
+  }, [formData.date]);
 
   useEffect(() => {
     if (formData.level && formData.position) {
@@ -179,6 +199,8 @@ const TechnicalAchievementForm = () => {
         calculated_points: calculatedPoints,
         category_code: categoryCode,
         competition_scope: competitionScope,
+        semester: formData.semester,
+        academic_year: formData.academicYear,
         status: "pending",
       };
 
@@ -295,6 +317,53 @@ const TechnicalAchievementForm = () => {
                         className={errors.date ? "border-red-500" : ""}
                       />
                       {errors.date && <p className="text-sm text-red-500">{errors.date}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="semester" className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Semester *
+                      </Label>
+                      <Select value={formData.semester} onValueChange={(value) => setFormData({ ...formData, semester: value })}>
+                        <SelectTrigger className={errors.semester ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select semester" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {semesterOptions.map((sem) => (
+                            <SelectItem key={sem.value} value={sem.value}>
+                              {sem.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.semester && <p className="text-sm text-red-500">{errors.semester}</p>}
+                      {formData.semester && (
+                        <p className="text-xs text-muted-foreground">
+                          Auto-detected from achievement date
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="academicYear">Academic Year *</Label>
+                      <Select value={formData.academicYear} onValueChange={(value) => setFormData({ ...formData, academicYear: value })}>
+                        <SelectTrigger className={errors.academicYear ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select academic year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {academicYearOptions.map((year) => (
+                            <SelectItem key={year.value} value={year.value}>
+                              {year.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.academicYear && <p className="text-sm text-red-500">{errors.academicYear}</p>}
+                      {formData.academicYear && (
+                        <p className="text-xs text-muted-foreground">
+                          Auto-detected from achievement date
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">

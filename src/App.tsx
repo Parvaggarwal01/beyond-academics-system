@@ -16,6 +16,8 @@ import BeyondAcademicsLeaderboard from "./pages/BeyondAcademicsLeaderboard";
 import Dashboard from "./pages/Dashboard";
 import Achievements from "./pages/Achievements";
 import Projects from "./pages/Projects";
+import AchievementTranscript from "./pages/AchievementTranscript";
+import VerifyTranscript from "./pages/VerifyTranscript";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import NotFound from "./pages/NotFound";
@@ -54,6 +56,9 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/transcript" element={<AchievementTranscript />} />
+          <Route path="/verify-transcript/:verificationCode" element={<VerifyTranscript />} />
+          <Route path="/verify" element={<VerifyTranscript />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           

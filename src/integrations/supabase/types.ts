@@ -31,6 +31,8 @@ export interface Database {
           status: string | null
           reviewed_by: string | null
           reviewed_at: string | null
+          semester: string | null
+          academic_year: string | null
         }
         Insert: {
           id?: string
@@ -53,6 +55,8 @@ export interface Database {
           status?: string | null
           reviewed_by?: string | null
           reviewed_at?: string | null
+          semester?: string | null
+          academic_year?: string | null
         }
         Update: {
           id?: string
@@ -75,8 +79,68 @@ export interface Database {
           status?: string | null
           reviewed_by?: string | null
           reviewed_at?: string | null
+          semester?: string | null
+          academic_year?: string | null
         }
         Relationships: []
+      }
+      achievement_transcripts: {
+        Row: {
+          id: string
+          created_at: string
+          user_id: string
+          semester: string
+          academic_year: string
+          transcript_data: Json
+          verification_code: string
+          generated_at: string
+          is_final: boolean
+          status: string
+          approved_by: string | null
+          approval_date: string | null
+          total_points: number
+          grade: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          user_id: string
+          semester: string
+          academic_year: string
+          transcript_data: Json
+          verification_code?: string
+          generated_at?: string
+          is_final?: boolean
+          status?: string
+          approved_by?: string | null
+          approval_date?: string | null
+          total_points?: number
+          grade?: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          user_id?: string
+          semester?: string
+          academic_year?: string
+          transcript_data?: Json
+          verification_code?: string
+          generated_at?: string
+          is_final?: boolean
+          status?: string
+          approved_by?: string | null
+          approval_date?: string | null
+          total_points?: number
+          grade?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "achievement_transcripts_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       profiles: {
         Row: {
@@ -89,6 +153,10 @@ export interface Database {
           registration_number: string | null
           phone: string | null
           avatar_url: string | null
+          father_name: string | null
+          mother_name: string | null
+          transcript_eligible: boolean | null
+          last_transcript_generated: string | null
         }
         Insert: {
           id: string
@@ -100,6 +168,10 @@ export interface Database {
           registration_number?: string | null
           phone?: string | null
           avatar_url?: string | null
+          father_name?: string | null
+          mother_name?: string | null
+          transcript_eligible?: boolean | null
+          last_transcript_generated?: string | null
         }
         Update: {
           id?: string
@@ -111,6 +183,10 @@ export interface Database {
           registration_number?: string | null
           phone?: string | null
           avatar_url?: string | null
+          father_name?: string | null
+          mother_name?: string | null
+          transcript_eligible?: boolean | null
+          last_transcript_generated?: string | null
         }
         Relationships: []
       }
