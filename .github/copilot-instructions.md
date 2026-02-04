@@ -1,6 +1,6 @@
-# Achiever Perks Hub Copilot Instructions
+# LPU Co-Curricular Transcript System - Copilot Instructions
 
-This document provides guidance for AI coding agents to effectively contribute to the Achiever Perks Hub project.
+This document provides guidance for AI coding agents to effectively contribute to the LPU Co-Curricular Transcript System project.
 
 ## Project Overview
 

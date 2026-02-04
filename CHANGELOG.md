@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-09-24
 
 ### Added
-- 🎉 Initial release of Achiever Perks Hub
+- 🎉 Initial release of LPU Co-Curricular Transcript System
 - 📱 Responsive dashboard for tracking achievements and progress
 - 🏆 Beyond Academics platform for non-academic achievements and leaderboards
 - 📚 Course management and tracking system

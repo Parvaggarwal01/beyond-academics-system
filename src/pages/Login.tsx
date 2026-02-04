@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -7,11 +10,73 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft, Key } from "lucide-react";
+import { ArrowLeft, Mail, Lock, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export function Login() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleDemoFill = () => {
+    setEmail("demo@lpu.in");
+    setPassword("Demo@2026");
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      // Development bypass for testing
+      if (email === "demo@lpu.in" && password === "Demo@2026") {
+        toast({
+          title: "Login Successful! (Dev Mode)",
+          description: "Welcome to the demo!",
+        });
+        
+        // Store a flag in localStorage to simulate logged in state
+        localStorage.setItem("demo_logged_in", "true");
+        localStorage.setItem("demo_user", JSON.stringify({
+          email: "demo@lpu.in",
+          name: "Demo Student",
+          id: "demo-user-123"
+        }));
+        
+        navigate("/dashboard");
+        return;
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Login Successful!",
+        description: "Welcome back!",
+      });
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      setError(error.message || "Invalid credentials");
+      toast({
+        title: "Login Failed",
+        description: error.message || "Please check your credentials",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
@@ -26,65 +91,85 @@ export function Login() {
         <Card className="mx-auto max-w-sm">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
-              <Key className="h-6 w-6" />
-              Authentication
+              <Mail className="h-6 w-6" />
+              Student Login
             </CardTitle>
             <CardDescription>
-              Single Sign-On via LPU UMS Integration
+              Sign in to access your co-curricular activities transcript
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Future API Integration Notice */}
-            <Alert>
-              <Key className="h-4 w-4" />
-              <AlertDescription>
-                <strong>API Integration Coming Soon</strong>
-                <p className="text-sm mt-2">
-                  Login will be integrated with LPU UMS API for seamless single-step authentication.
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  API Source: <a href="https://ums.lpu.in/" target="_blank" rel="noopener noreferrer" className="underline">ums.lpu.in</a>
-                </p>
-              </AlertDescription>
-            </Alert>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
 
-            <div className="text-center py-8">
-              <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Key className="h-8 w-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">LPU UMS Integration</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Authentication will be handled through LPU&apos;s unified authentication system.
-              </p>
-              
-              <div className="space-y-3">
-                <div className="text-left text-sm">
-                  <p className="font-semibold mb-2">Features:</p>
-                  <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                    <li>Single Sign-On (SSO)</li>
-                    <li>Automatic student data sync</li>
-                    <li>Secure API-based authentication</li>
-                    <li>No separate credentials needed</li>
-                  </ul>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="student@lpu.in"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
                 </div>
               </div>
-            </div>
 
-            {/* Temporary Access */}
-            <div className="border-t pt-4">
-              <p className="text-sm text-muted-foreground text-center mb-3">
-                For development and testing purposes
-              </p>
-              <Button 
-                onClick={() => navigate("/dashboard")} 
-                className="w-full"
-                variant="outline"
-              >
-                Continue to Dashboard (Dev Mode)
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing in..." : "Sign In"}
               </Button>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Testing
+                  </span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={handleDemoFill}
+              >
+                Auto-fill Demo Credentials
+              </Button>
+            </form>
+
+            <div className="mt-4 text-center text-sm">
+              <span className="text-muted-foreground">Demo: </span>
+              <code className="text-xs bg-muted px-2 py-1 rounded">demo@lpu.in</code>
             </div>
 
-            <div className="text-center text-sm">
+            <div className="mt-4 text-center text-sm">
               <Link to="/" className="text-muted-foreground hover:underline">
                 Return to Home
               </Link>

@@ -2,7 +2,7 @@
 -- Run this in Supabase SQL Editor to create demo credentials
 
 -- Note: This creates a user in auth.users and a profile in public.profiles
--- Demo Credentials: demo@vignan.edu / Demo@2026
+-- Demo Credentials: demo@lpu.in / Demo@2026
 
 -- First, create the auth user (if not exists)
 -- You may need to do this through Supabase Dashboard > Authentication > Users
@@ -27,12 +27,12 @@ INSERT INTO public.profiles (
 ) VALUES (
   'USER_UUID_HERE', -- Replace with actual UUID from auth.users after creating user
   'Demo Student',
-  '12345678',
-  'School of Computer Science and Engineering',
-  'B.Tech Computer Science and Engineering',
+  '12212345',
+  'Computer Science and Engineering',
+  'B.Tech. Computer Science and Engineering (CSE)',
   '3',
-  'A',
-  'demo@vignan.edu',
+  'K25RA',
+  'demo@lpu.in',
   'Father Name',
   'Mother Name',
   true,
@@ -50,7 +50,7 @@ INSERT INTO public.profiles (
 -- 1. Go to Supabase Dashboard
 -- 2. Navigate to Authentication > Users
 -- 3. Click "Add user" > "Create new user"
--- 4. Email: demo@vignan.edu
+-- 4. Email: demo@lpu.in
 -- 5. Password: Demo@2026
 -- 6. Click "Create user"
 -- 7. Copy the user's UUID

@@ -1,6 +1,6 @@
-# Contributing to Achiever Perks Hub
+# Contributing to LPU Co-Curricular Transcript System
 
-Thank you for your interest in contributing to Achiever Perks Hub! We welcome contributions from everyone.
+Thank you for your interest in contributing to LPU Co-Curricular Transcript System! We welcome contributions from everyone.
 
 ## 🚀 Getting Started
 
@@ -129,4 +129,4 @@ Thank you for your interest in contributing to Achiever Perks Hub! We welcome co
 
 Contributors will be recognized in our README and release notes!
 
-Thank you for contributing to Achiever Perks Hub! 🎉
+Thank you for contributing to LPU Co-Curricular Transcript System! 🎉

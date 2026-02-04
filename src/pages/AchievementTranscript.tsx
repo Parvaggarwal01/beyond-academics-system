@@ -158,7 +158,7 @@ export default function AchievementTranscript() {
         {
           id: "7",
           title: "Debate Competition",
-          category: "leadership",
+          category: "arts_culture",
           date: "2026-01-10",
           level: "National",
           position: "1st Prize",

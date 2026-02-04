@@ -27,7 +27,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 async function createDemoUser() {
   console.log('🚀 Creating demo user...\n');
 
-  const demoEmail = 'demo@vignan.edu';
+  const demoEmail = 'demo@lpu.in';
   const demoPassword = 'Demo@2026';
 
   try {
@@ -43,7 +43,7 @@ async function createDemoUser() {
     });
 
     if (authError) {
-      if (authError.message.includes('already registered')) {
+      if (authError.message.includes('already registered') || authError.message.includes('already been registered')) {
         console.log('⚠️  User already exists, fetching existing user...');
         const { data: existingUsers } = await supabase.auth.admin.listUsers();
         const existingUser = existingUsers?.users.find(u => u.email === demoEmail);
@@ -51,6 +51,11 @@ async function createDemoUser() {
         if (existingUser) {
           console.log('✅ Found existing user:', existingUser.id);
           await createProfile(existingUser.id);
+          console.log('\n🎉 Demo user profile created successfully!');
+          console.log('\n📧 Login credentials:');
+          console.log('   Email:', demoEmail);
+          console.log('   Password:', demoPassword);
+          console.log('\n🌐 Test at: http://localhost:8081/login');
           return;
         }
       }
@@ -82,12 +87,12 @@ async function createProfile(userId: string) {
     .upsert({
       id: userId,
       full_name: 'Demo Student',
-      registration_number: '12345678',
-      school: 'School of Computer Science and Engineering',
-      program: 'B.Tech Computer Science and Engineering',
+      registration_number: '12212345',
+      school: 'Computer Science and Engineering',
+      program: 'B.Tech. Computer Science and Engineering (CSE)',
       year: '3',
-      section: 'A',
-      email: 'demo@vignan.edu',
+      section: 'K25RA',
+      email: 'demo@lpu.in',
       father_name: 'Demo Father',
       mother_name: 'Demo Mother',
       transcript_eligible: true,

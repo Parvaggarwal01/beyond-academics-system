@@ -1,4 +1,4 @@
-# 🏆 Achiever Perks Hub
+# 🏆 LPU Co-Curricular Transcript System
 
 A comprehensive web application designed to be a hub for student achievers to discover perks, opportunities, and track their academic and extracurricular accomplishments.
 

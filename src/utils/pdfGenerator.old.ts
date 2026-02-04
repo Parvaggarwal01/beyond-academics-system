@@ -46,14 +46,14 @@ export const generateTranscriptPDF = async (data: TranscriptData): Promise<void>
 
   // University Name
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20);
+  doc.setFontSize(18);
   doc.setFont("helvetica", "bold");
   doc.text("LOVELY PROFESSIONAL UNIVERSITY", pageWidth / 2, 12, { align: "center" });
-  doc.text("JALANDHAR - DELHI G.T. ROAD, PHAGWARA, PUNJAB", pageWidth / 2, 18, { align: "center" });
   
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.setFont("helvetica", "normal");
-  doc.text("(Deemed to be University)", pageWidth / 2, 28, { align: "center" });
+  doc.text("Jalandhar-Delhi, G.T. Road, Phagwara, Punjab - 144411", pageWidth / 2, 20, { align: "center" });
+  doc.text("NAAC A++ | NIRF Ranked 31st | THE Impact 2nd in India", pageWidth / 2, 28, { align: "center" });
 
   // Document Title
   doc.setTextColor(0, 0, 0);

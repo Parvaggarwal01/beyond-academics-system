@@ -26,7 +26,7 @@ Once the script completes successfully:
 ---
 
 ## Demo Credentials
-- **Email:** demo@vignan.edu
+- **Email:** demo@lpu.in
 - **Password:** Demo@2026
 
 ---

@@ -11,7 +11,7 @@ We release patches for security vulnerabilities in the following versions:
 
 ## Reporting a Vulnerability
 
-We take the security of Achiever Perks Hub seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take the security of LPU Co-Curricular Transcript System seriously. If you believe you have found a security vulnerability, please report it to us as described below.
 
 ### How to Report a Security Vulnerability
 
@@ -85,4 +85,4 @@ We would like to thank the following people for responsibly disclosing security 
 
 ---
 
-Thank you for helping keep Achiever Perks Hub and our users safe!
+Thank you for helping keep LPU Co-Curricular Transcript System and our users safe!

@@ -40,6 +40,8 @@ import {
   Shield,
   BookOpen,
   GraduationCap,
+  Rocket,
+  Heart,
 } from "lucide-react";
 import Header from "@/components/Header";
 
@@ -55,12 +57,15 @@ const BeyondAcademics = () => {
 
   const navigateToCategoryForm = (category: string) => {
     const routes: Record<string, string> = {
-      "Technical": "/beyond-academics/technical",
-      "Sports": "/beyond-academics/sports",
-      "Cultural": "/beyond-academics/cultural",
-      "Leadership": "/beyond-academics/leadership",
+      "Technical": "/achievement-form/technical",
+      "Sports": "/achievement-form/sports",
+      "Cultural": "/achievement-form/cultural",
+      "Arts & Culture": "/achievement-form/arts-culture",
+      "Startup": "/achievement-form/startup",
+      "Community": "/achievement-form/community",
+      "Club": "/achievement-form/club",
     };
-    navigate(routes[category] || "/beyond-academics-add-achievement");
+    navigate(routes[category] || "/beyond-academics");
   };
 
   const getCategoryDetails = (title: string) => {
@@ -167,10 +172,10 @@ const BeyondAcademics = () => {
           },
         ],
       },
-      Leadership: {
+      "Arts & Culture": {
         icon: <UsersRound className="w-8 h-8" />,
         benefits: [
-          "₹2,000 - ₹25,000 scholarship for leadership impact",
+          "₹2,000 - ₹25,000 scholarship for arts & culture impact",
           "3-8 academic credits",
           "Leadership certificate",
           "LinkedIn endorsement from university",
@@ -178,7 +183,7 @@ const BeyondAcademics = () => {
           "Letter of recommendation support",
         ],
         eligibility: [
-          "Minimum 6 months in leadership role",
+          "Minimum 6 months in arts & culture role",
           "Demonstrable impact and results",
           "Supervisor/mentor recommendation",
           "Documentation of activities",
@@ -198,6 +203,108 @@ const BeyondAcademics = () => {
             name: "Event Organization",
             details: "Successfully organizing technical/cultural/sports events",
             points: "3-100 points based on competition scope & achievement",
+          },
+        ],
+      },
+      "Startup": {
+        icon: <Rocket className="w-8 h-8" />,
+        benefits: [
+          "₹5,000 - ₹50,000 funding support for startups",
+          "5-10 academic credits for entrepreneurship",
+          "Incubation center access",
+          "Mentorship from successful entrepreneurs",
+          "Networking with investors and industry leaders",
+          "Certificate of entrepreneurial excellence",
+        ],
+        eligibility: [
+          "Registered business or startup",
+          "Demonstrable product/service launch",
+          "Business plan documentation",
+          "Achievement within last 12 months",
+        ],
+        examples: [
+          {
+            name: "Pitch Competitions",
+            details: "Win or participate in startup pitch competitions",
+            points: "3-100 points based on level & rank (Codes: A1-M3)",
+          },
+          {
+            name: "Funding Secured",
+            details: "Secured investment or grants for startup",
+            points: "3-100 points based on funding amount & stage",
+          },
+          {
+            name: "Product Launch",
+            details: "Successfully launched product with user traction",
+            points: "3-100 points based on impact & market reach",
+          },
+        ],
+      },
+      "Community": {
+        icon: <Heart className="w-8 h-8" />,
+        benefits: [
+          "₹2,000 - ₹30,000 scholarship for social impact",
+          "3-8 academic credits for community service",
+          "Social service certificate",
+          "Featured in university social initiatives",
+          "Networking with NGOs and social organizations",
+          "Letter of recommendation for social work",
+        ],
+        eligibility: [
+          "Minimum 50 hours of community service",
+          "Measurable social impact",
+          "NGO or organization recommendation",
+          "Documentation of activities and impact",
+        ],
+        examples: [
+          {
+            name: "Volunteer Work",
+            details: "Teaching, healthcare, environmental conservation",
+            points: "3-100 points based on duration & impact (Codes: A1-M3)",
+          },
+          {
+            name: "NGO Collaboration",
+            details: "Partnering with NGOs for social initiatives",
+            points: "3-100 points based on level & beneficiaries reached",
+          },
+          {
+            name: "Awareness Campaigns",
+            details: "Social awareness drives, health camps, education programs",
+            points: "3-100 points based on reach & impact",
+          },
+        ],
+      },
+      "Club": {
+        icon: <Target className="w-8 h-8" />,
+        benefits: [
+          "₹1,000 - ₹20,000 scholarship for organizational work",
+          "2-6 academic credits",
+          "Leadership and organizational certificate",
+          "Featured in university club activities",
+          "Access to club resources and mentorship",
+          "LinkedIn endorsement for leadership skills",
+        ],
+        eligibility: [
+          "Minimum 6 months active membership",
+          "Demonstrable contribution to club activities",
+          "Faculty advisor recommendation",
+          "Documentation of events and activities",
+        ],
+        examples: [
+          {
+            name: "Club Leadership",
+            details: "President, secretary, coordinator positions",
+            points: "3-100 points based on level & achievements (Codes: A1-M3)",
+          },
+          {
+            name: "Event Management",
+            details: "Organizing workshops, competitions, cultural events",
+            points: "3-100 points based on event scale & participation",
+          },
+          {
+            name: "Student Chapter Activities",
+            details: "IEEE, ACM, Rotaract, technical society activities",
+            points: "3-100 points based on impact & recognition",
           },
         ],
       },
@@ -311,12 +418,39 @@ const BeyondAcademics = () => {
     },
     {
       icon: <UsersRound className="w-12 h-12" />,
-      title: "Leadership",
-      description: "Leadership roles, community service, organizing events",
-      examples: ["Student Leadership", "Community Service", "Event Organization"],
+      title: "Arts & Culture",
+      description: "Arts & culture roles, community service, organizing events",
+      examples: ["Student Activities", "Community Service", "Event Organization"],
       gradient: "from-orange-600 via-amber-500 to-yellow-500",
       iconColor: "text-orange-600",
       count: "496+ achievements",
+    },
+    {
+      icon: <Rocket className="w-12 h-12" />,
+      title: "Startup",
+      description: "Entrepreneurship, product launches, business ventures",
+      examples: ["Startup Competitions", "Product Development", "Business Pitches"],
+      gradient: "from-indigo-600 via-violet-500 to-purple-500",
+      iconColor: "text-indigo-600",
+      count: "320+ achievements",
+    },
+    {
+      icon: <Heart className="w-12 h-12" />,
+      title: "Community",
+      description: "Social work, NGO activities, volunteering",
+      examples: ["Volunteer Programs", "NGO Work", "Social Initiatives"],
+      gradient: "from-rose-600 via-red-500 to-pink-500",
+      iconColor: "text-rose-600",
+      count: "410+ achievements",
+    },
+    {
+      icon: <Target className="w-12 h-12" />,
+      title: "Club",
+      description: "Club activities, society events, organizational work",
+      examples: ["Club Events", "Society Activities", "Student Organizations"],
+      gradient: "from-emerald-600 via-teal-500 to-cyan-500",
+      iconColor: "text-emerald-600",
+      count: "550+ achievements",
     },
   ];
 

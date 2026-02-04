@@ -496,7 +496,10 @@ const AdminHODPanel = () => {
                     <SelectItem value="technical">Technical</SelectItem>
                     <SelectItem value="sports">Sports</SelectItem>
                     <SelectItem value="cultural">Cultural</SelectItem>
-                    <SelectItem value="leadership">Leadership</SelectItem>
+                    <SelectItem value="arts_culture">Arts & Culture</SelectItem>
+                    <SelectItem value="startup">Startup & Innovation</SelectItem>
+                    <SelectItem value="community">Community Service</SelectItem>
+                    <SelectItem value="club">Club & Organization</SelectItem>
                   </SelectContent>
                 </Select>
 

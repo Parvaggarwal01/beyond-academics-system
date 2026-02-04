@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UsersRound, Upload, CheckCircle, Loader2, Award, Target, Users, Sparkles, Calendar } from "lucide-react";
+import { Rocket, Upload, CheckCircle, Loader2, Award, Target, Users, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,36 +17,36 @@ import { z } from "zod";
 import confetti from "canvas-confetti";
 import { getAllSemesters, getAcademicYears, detectSemesterAndYear } from "@/utils/semesterUtils";
 
-const leadershipSchema = z.object({
+const startupSchema = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(100),
-  roleType: z.string().min(1, "Please select role type"),
+  startupType: z.string().min(1, "Please select startup type"),
   date: z.string().min(1, "Date is required"),
   organization: z.string().min(3, "Organization name is required"),
   level: z.string().min(1, "Please select level"),
   duration: z.string().min(1, "Duration is required"),
   description: z.string().min(50, "Description must be at least 50 characters").max(1000),
-  activityType: z.string().min(1, "Please select activity type"),
+  achievementType: z.string().min(1, "Please select achievement type"),
   impact: z.string().min(20, "Please describe the impact (minimum 20 characters)"),
   teamSize: z.string().optional(),
   semester: z.string().min(1, "Please select semester"),
   academicYear: z.string().min(1, "Please select academic year"),
 });
 
-const LeadershipAchievementForm = () => {
+const StartupAchievementForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     title: "",
-    roleType: "",
+    startupType: "",
     date: "",
     organization: "",
     level: "",
     position: "",
     duration: "",
     description: "",
-    activityType: "",
+    achievementType: "",
     impact: "",
     teamSize: "",
     semester: "",
@@ -54,28 +54,26 @@ const LeadershipAchievementForm = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const roleTypes = [
-    { value: "student-council", label: "Student Council Member" },
-    { value: "club-president", label: "Club President" },
-    { value: "club-coordinator", label: "Club Coordinator" },
-    { value: "event-organizer", label: "Event Organizer" },
-    { value: "volunteer-coordinator", label: "Volunteer Coordinator" },
-    { value: "team-lead", label: "Team Lead" },
-    { value: "mentor", label: "Mentor/Tutor" },
-    { value: "ngo-volunteer", label: "NGO Volunteer" },
-    { value: "community-service", label: "Community Service" },
-    { value: "other", label: "Other Leadership Role" },
+  const startupTypes = [
+    { value: "tech-startup", label: "Tech Startup" },
+    { value: "social-enterprise", label: "Social Enterprise" },
+    { value: "product-launch", label: "Product Launch" },
+    { value: "business-venture", label: "Business Venture" },
+    { value: "innovation-project", label: "Innovation Project" },
+    { value: "research-commercialization", label: "Research Commercialization" },
+    { value: "consulting", label: "Consulting Business" },
+    { value: "other", label: "Other Startup" },
   ];
 
-  const activityTypes = [
-    { value: "student-governance", label: "Student Governance" },
-    { value: "event-management", label: "Event Management" },
-    { value: "community-service", label: "Community Service" },
-    { value: "social-work", label: "Social Work" },
-    { value: "mentorship", label: "Mentorship Program" },
-    { value: "fundraising", label: "Fundraising" },
-    { value: "awareness-campaign", label: "Awareness Campaign" },
-    { value: "environmental", label: "Environmental Initiative" },
+  const achievementTypes = [
+    { value: "pitch-competition", label: "Pitch Competition" },
+    { value: "funding-secured", label: "Funding Secured" },
+    { value: "incubation", label: "Incubation/Acceleration" },
+    { value: "product-launch", label: "Product Launch" },
+    { value: "revenue-milestone", label: "Revenue Milestone" },
+    { value: "partnership", label: "Strategic Partnership" },
+    { value: "recognition", label: "Recognition/Award" },
+    { value: "customer-acquisition", label: "Customer Acquisition" },
   ];
 
   const [calculatedPoints, setCalculatedPoints] = useState<number | null>(null);
@@ -139,7 +137,7 @@ const LeadershipAchievementForm = () => {
 
   const validateForm = () => {
     try {
-      leadershipSchema.parse(formData);
+      startupSchema.parse(formData);
       setErrors({});
       return true;
     } catch (error) {
@@ -200,8 +198,8 @@ const LeadershipAchievementForm = () => {
         user_id: user.id,
         title: formData.title,
         description: formData.description,
-        category: "leadership",
-        event_type: formData.activityType,
+        category: "startup",
+        event_type: formData.achievementType,
         date: formData.date,
         organizer: formData.organization,
         level: formData.level,
@@ -234,7 +232,7 @@ const LeadershipAchievementForm = () => {
         description: (
           <div className="flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-600" />
-            <span>Leadership achievement submitted successfully!</span>
+            <span>Startup achievement submitted successfully!</span>
           </div>
         ),
       });
@@ -252,7 +250,7 @@ const LeadershipAchievementForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <Header />
       <main className="container mx-auto px-4 py-8">
         <Button
@@ -265,15 +263,15 @@ const LeadershipAchievementForm = () => {
 
         <div className="max-w-4xl mx-auto">
           <Card className="border-none shadow-2xl">
-            <CardHeader className="space-y-4 bg-gradient-to-r from-orange-600 to-amber-500 text-white rounded-t-xl">
+            <CardHeader className="space-y-4 bg-gradient-to-r from-indigo-600 to-purple-500 text-white rounded-t-xl">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                  <UsersRound className="w-8 h-8" />
+                  <Rocket className="w-8 h-8" />
                 </div>
                 <div>
-                  <CardTitle className="text-3xl">Leadership Achievement</CardTitle>
-                  <CardDescription className="text-orange-100">
-                    Submit your leadership roles, community service, and organizing experiences
+                  <CardTitle className="text-3xl">Startup Achievement</CardTitle>
+                  <CardDescription className="text-white/90 text-lg">
+                    Submit your entrepreneurship, product launches, and business ventures
                   </CardDescription>
                 </div>
               </div>
@@ -284,7 +282,7 @@ const LeadershipAchievementForm = () => {
                 {/* Achievement Details */}
                 <div className="space-y-6">
                   <h3 className="text-xl font-bold flex items-center gap-2">
-                    <Award className="w-5 h-5 text-orange-600" />
+                    <Award className="w-5 h-5 text-indigo-600" />
                     Achievement Details
                   </h3>
 
@@ -295,7 +293,7 @@ const LeadershipAchievementForm = () => {
                         id="title"
                         value={formData.title}
                         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                        placeholder="e.g., Student Council President - Led 500+ Student Initiatives"
+                        placeholder="e.g., Founded EdTech Startup - Secured Seed Funding"
                         className={errors.title ? "border-red-500" : ""}
                       />
                       {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
@@ -303,41 +301,41 @@ const LeadershipAchievementForm = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="roleType">Leadership Role *</Label>
-                      <Select value={formData.roleType} onValueChange={(value) => setFormData({ ...formData, roleType: value })}>
-                        <SelectTrigger className={errors.roleType ? "border-red-500" : ""}>
-                          <SelectValue placeholder="Select role" />
+                      <Label htmlFor="startupType">Startup Type *</Label>
+                      <Select value={formData.startupType} onValueChange={(value) => setFormData({ ...formData, startupType: value })}>
+                        <SelectTrigger className={errors.startupType ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select type" />
                         </SelectTrigger>
                         <SelectContent>
-                          {roleTypes.map((role) => (
-                            <SelectItem key={role.value} value={role.value}>
-                              {role.label}
+                          {startupTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
-                      {errors.roleType && <p className="text-sm text-red-500">{errors.roleType}</p>}
+                      {errors.startupType && <p className="text-sm text-red-500">{errors.startupType}</p>}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="activityType">Activity Type *</Label>
-                      <Select value={formData.activityType} onValueChange={(value) => setFormData({ ...formData, activityType: value })}>
-                        <SelectTrigger className={errors.activityType ? "border-red-500" : ""}>
-                          <SelectValue placeholder="Select activity" />
+                      <Label htmlFor="achievementType">Achievement Type *</Label>
+                      <Select value={formData.achievementType} onValueChange={(value) => setFormData({ ...formData, achievementType: value })}>
+                        <SelectTrigger className={errors.achievementType ? "border-red-500" : ""}>
+                          <SelectValue placeholder="Select achievement" />
                         </SelectTrigger>
                         <SelectContent>
-                          {activityTypes.map((activity) => (
-                            <SelectItem key={activity.value} value={activity.value}>
-                              {activity.label}
+                          {achievementTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
-                      {errors.activityType && <p className="text-sm text-red-500">{errors.activityType}</p>}
+                      {errors.achievementType && <p className="text-sm text-red-500">{errors.achievementType}</p>}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="date">Start Date *</Label>
+                      <Label htmlFor="date">Achievement Date *</Label>
                       <Input
                         id="date"
                         type="date"
@@ -397,24 +395,24 @@ const LeadershipAchievementForm = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="duration">Duration *</Label>
+                      <Label htmlFor="duration">Duration/Timeline *</Label>
                       <Input
                         id="duration"
                         value={formData.duration}
                         onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                        placeholder="e.g., 1 year, 6 months"
+                        placeholder="e.g., 6 months, Ongoing"
                         className={errors.duration ? "border-red-500" : ""}
                       />
                       {errors.duration && <p className="text-sm text-red-500">{errors.duration}</p>}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="organization">Organization/Institution *</Label>
+                      <Label htmlFor="organization">Platform/Organizer *</Label>
                       <Input
                         id="organization"
                         value={formData.organization}
                         onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                        placeholder="e.g., Student Council, NSS, Rotaract"
+                        placeholder="e.g., TiE, IIT Incubator, Startup India"
                         className={errors.organization ? "border-red-500" : ""}
                       />
                       {errors.organization && <p className="text-sm text-red-500">{errors.organization}</p>}
@@ -469,11 +467,11 @@ const LeadershipAchievementForm = () => {
 
                     {calculatedPoints !== null && (
                       <div className="md:col-span-2">
-                        <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-200 rounded-lg p-4">
+                        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-lg p-4">
                           <div className="flex items-center justify-between">
                             <div>
                               <p className="text-sm font-medium text-gray-600">Calculated Points</p>
-                              <p className="text-3xl font-bold text-orange-600">{calculatedPoints}</p>
+                              <p className="text-3xl font-bold text-indigo-600">{calculatedPoints}</p>
                             </div>
                             <Badge variant="secondary" className="text-lg px-4 py-2">
                               Code: {categoryCode}
@@ -486,14 +484,14 @@ const LeadershipAchievementForm = () => {
                     <div className="space-y-2">
                       <Label htmlFor="teamSize" className="flex items-center gap-2">
                         <Users className="w-4 h-4" />
-                        Team Size (if applicable)
+                        Team Size
                       </Label>
                       <Input
                         id="teamSize"
                         type="number"
                         value={formData.teamSize}
                         onChange={(e) => setFormData({ ...formData, teamSize: e.target.value })}
-                        placeholder="e.g., 20"
+                        placeholder="e.g., 5"
                         min="1"
                       />
                     </div>
@@ -504,7 +502,7 @@ const LeadershipAchievementForm = () => {
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        placeholder="Describe your role, responsibilities, and key activities..."
+                        placeholder="Describe your startup, product, business model, and key milestones..."
                         rows={5}
                         className={errors.description ? "border-red-500" : ""}
                       />
@@ -515,13 +513,13 @@ const LeadershipAchievementForm = () => {
                     <div className="md:col-span-2 space-y-2">
                       <Label htmlFor="impact" className="flex items-center gap-2">
                         <Target className="w-4 h-4" />
-                        Impact & Achievements *
+                        Impact & Metrics *
                       </Label>
                       <Textarea
                         id="impact"
                         value={formData.impact}
                         onChange={(e) => setFormData({ ...formData, impact: e.target.value })}
-                        placeholder="Describe the impact of your work, measurable outcomes, people helped, changes made..."
+                        placeholder="Share metrics: users acquired, revenue generated, funding raised, partnerships formed..."
                         rows={4}
                         className={errors.impact ? "border-red-500" : ""}
                       />
@@ -533,11 +531,11 @@ const LeadershipAchievementForm = () => {
                 {/* Certificate Upload */}
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold flex items-center gap-2">
-                    <Upload className="w-5 h-5 text-orange-600" />
+                    <Upload className="w-5 h-5 text-indigo-600" />
                     Certificate/Proof *
                   </h3>
 
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-500 transition-colors">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-indigo-500 transition-colors">
                     <input
                       type="file"
                       id="certificate"
@@ -569,7 +567,7 @@ const LeadershipAchievementForm = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600"
+                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-500 hover:from-indigo-700 hover:to-purple-600"
                   >
                     {isSubmitting ? (
                       <>
@@ -593,4 +591,4 @@ const LeadershipAchievementForm = () => {
   );
 };
 
-export default LeadershipAchievementForm;
+export default StartupAchievementForm;

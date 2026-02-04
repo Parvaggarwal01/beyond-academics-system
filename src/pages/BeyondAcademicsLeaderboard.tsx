@@ -6,10 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Trophy, Medal, Award, Star, TrendingUp, Filter, Crown, Target, Users, Search, GraduationCap, BookOpen } from "lucide-react";
+import { Trophy, Medal, Award, Star, TrendingUp, Filter, Crown, Target, Users, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
-import { LPU_DATA, getSchoolById } from "@/data/lpuData";
 
 const BeyondAcademicsLeaderboard = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -17,118 +16,14 @@ const BeyondAcademicsLeaderboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const leaderboardData = useMemo(() => [
-    { 
-      rank: 1, 
-      name: "Raj Patel", 
-      points: 245, 
-      achievements: 12, 
-      category: "Technical", 
-      trend: "+15", 
-      avatar: "RP", 
-      college: "LPU",
-      school: "Computer Science and Engineering",
-      program: "B.Tech. (CSE) - AI and Machine Learning",
-      year: "3rd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=RajPatel" 
-    },
-    { 
-      rank: 2, 
-      name: "Priya Sharma", 
-      points: 220, 
-      achievements: 10, 
-      category: "Cultural", 
-      trend: "+8", 
-      avatar: "PS", 
-      college: "LPU",
-      school: "Business",
-      program: "MBA Digital and Social Media Marketing",
-      year: "2nd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaSharma" 
-    },
-    { 
-      rank: 3, 
-      name: "Arjun Kumar", 
-      points: 195, 
-      achievements: 9, 
-      category: "Sports", 
-      trend: "+12", 
-      avatar: "AK", 
-      college: "LPU",
-      school: "Mechanical Engineering",
-      program: "B.Tech. Aerospace Engineering",
-      year: "4th Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=ArjunKumar" 
-    },
-    { 
-      rank: 4, 
-      name: "Sneha Gupta", 
-      points: 180, 
-      achievements: 8, 
-      category: "Leadership", 
-      trend: "+5", 
-      avatar: "SG", 
-      college: "LPU",
-      school: "Business",
-      program: "BBA - Bachelor of Business Administration",
-      year: "3rd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=SnehaGupta" 
-    },
-    { 
-      rank: 5, 
-      name: "Vikram Singh", 
-      points: 165, 
-      achievements: 7, 
-      category: "Technical", 
-      trend: "+3", 
-      avatar: "VS", 
-      college: "LPU",
-      school: "Computer Science and Engineering",
-      program: "B.Tech. (CSE) - Cloud Computing and Gen AI (with Google Cloud)",
-      year: "2nd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=VikramSingh" 
-    },
-    { 
-      rank: 6, 
-      name: "Ananya Reddy", 
-      points: 155, 
-      achievements: 6, 
-      category: "Cultural", 
-      trend: "+7", 
-      avatar: "AR", 
-      college: "LPU",
-      school: "Design",
-      program: "B.Des Fashion Design",
-      year: "3rd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=AnanyaReddy" 
-    },
-    { 
-      rank: 7, 
-      name: "Karan Mehta", 
-      points: 140, 
-      achievements: 6, 
-      category: "Sports", 
-      trend: "+4", 
-      avatar: "KM", 
-      college: "LPU",
-      school: "Electrical Engineering",
-      program: "B.Tech. Electrical and Electronics Engineering (EEE)",
-      year: "2nd Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=KaranMehta" 
-    },
-    { 
-      rank: 8, 
-      name: "Riya Jain", 
-      points: 135, 
-      achievements: 5, 
-      category: "Leadership", 
-      trend: "+2", 
-      avatar: "RJ", 
-      college: "LPU",
-      school: "Law",
-      program: "BA LL.B",
-      year: "4th Year",
-      imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=RiyaJain" 
-    },
+    { rank: 1, name: "Raj Patel", points: 245, achievements: 12, category: "Technical", trend: "+15", avatar: "RP", college: "IIT Delhi", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=RajPatel" },
+    { rank: 2, name: "Priya Sharma", points: 220, achievements: 10, category: "Cultural", trend: "+8", avatar: "PS", college: "NIT Trichy", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaSharma" },
+    { rank: 3, name: "Arjun Kumar", points: 195, achievements: 9, category: "Sports", trend: "+12", avatar: "AK", college: "BITS Pilani", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=ArjunKumar" },
+    { rank: 4, name: "Sneha Gupta", points: 180, achievements: 8, category: "Arts & Culture", trend: "+5", avatar: "SG", college: "VIT Vellore", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=SnehaGupta" },
+    { rank: 5, name: "Vikram Singh", points: 165, achievements: 7, category: "Technical", trend: "+3", avatar: "VS", college: "DTU Delhi", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=VikramSingh" },
+    { rank: 6, name: "Ananya Reddy", points: 155, achievements: 6, category: "Cultural", trend: "+7", avatar: "AR", college: "SRM Chennai", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=AnanyaReddy" },
+    { rank: 7, name: "Karan Mehta", points: 140, achievements: 6, category: "Sports", trend: "+4", avatar: "KM", college: "IIIT Hyderabad", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=KaranMehta" },
+    { rank: 8, name: "Riya Jain", points: 135, achievements: 5, category: "Arts & Culture", trend: "+2", avatar: "RJ", college: "Manipal University", imageUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=RiyaJain" },
   ], []);
 
   const categories = [
@@ -136,7 +31,7 @@ const BeyondAcademicsLeaderboard = () => {
     { value: "Technical", label: "Technical" },
     { value: "Cultural", label: "Cultural" },
     { value: "Sports", label: "Sports" },
-    { value: "Leadership", label: "Leadership" },
+    { value: "Arts & Culture", label: "Arts & Culture" },
   ];
 
   const filteredData = useMemo(() => {
@@ -151,9 +46,7 @@ const BeyondAcademicsLeaderboard = () => {
     if (searchQuery.trim()) {
       data = data.filter(student => 
         student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.college.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.school.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.program.toLowerCase().includes(searchQuery.toLowerCase())
+        student.college.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     
@@ -231,13 +124,7 @@ const BeyondAcademicsLeaderboard = () => {
                     {getRankIcon(student.rank)}
                   </div>
                   <h3 className="font-bold text-lg mb-1">{student.name}</h3>
-                  <p className="text-xs text-muted-foreground mb-1">{student.college}</p>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
-                    <GraduationCap className="w-3 h-3" />
-                    <span className="truncate">{student.school}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground/80 mb-2 line-clamp-1">{student.program}</p>
-                  <Badge variant="outline" className="text-xs mb-2">{student.year}</Badge>
+                  <p className="text-sm text-muted-foreground mb-2">{student.college}</p>
                   <div className="text-3xl font-bold text-primary mb-2">{student.points}</div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Target className="w-4 h-4" />
@@ -263,7 +150,7 @@ const BeyondAcademicsLeaderboard = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name, school, or program..."
+                  placeholder="Search students or colleges..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 w-64"
@@ -357,24 +244,13 @@ const BeyondAcademicsLeaderboard = () => {
                       
                       <div className="flex-1">
                         <h3 className="font-semibold text-lg">{student.name}</h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-                          <GraduationCap className="w-3 h-3" />
-                          <span className="font-medium">{student.school}</span>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <span>{student.college}</span>
                           <span>•</span>
-                          <span>{student.year}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <BookOpen className="w-3 h-3" />
-                          <span className="line-clamp-1">{student.program}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col items-center gap-2">
-                        <Badge variant="outline" className="text-xs">
-                          {student.category}
-                        </Badge>
-                        <div className="text-sm text-muted-foreground">
-                          {student.achievements} achievements
+                          <span>{student.achievements} achievements</span>
+                          <Badge variant="outline" className="text-xs">
+                            {student.category}
+                          </Badge>
                         </div>
                       </div>
                       
@@ -401,67 +277,29 @@ const BeyondAcademicsLeaderboard = () => {
                   .slice(0, 3);
                 
                 return (
-                  <Card key={category.value} className="bg-card/80 backdrop-blur-sm border-l-4 border-l-primary hover:shadow-lg transition-all duration-300">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                          {category.value === 'Technical' && '💻'}
-                          {category.value === 'Cultural' && '🎭'}
-                          {category.value === 'Sports' && '⚽'}
-                          {category.value === 'Leadership' && '👥'}
-                        </div>
-                        {category.label} Leaders
-                      </CardTitle>
-                      <CardDescription className="text-xs">
-                        Top performers in {category.label.toLowerCase()} achievements
-                      </CardDescription>
+                  <Card key={category.value} className="bg-card/80 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="text-lg">{category.label} Leaders</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {categoryLeaders.length > 0 ? (
-                          categoryLeaders.map((student, index) => (
-                            <div 
-                              key={student.name} 
-                              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 hover:scale-[1.02] ${
-                                index === 0 ? 'bg-primary/5 border border-primary/20' : 'bg-muted/30 hover:bg-muted/50'
-                              }`}
-                            >
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                                index === 0 ? 'bg-yellow-500 text-white' : 
-                                index === 1 ? 'bg-gray-400 text-white' : 
-                                'bg-amber-600 text-white'
-                              }`}>
-                                {index + 1}
-                              </div>
-                              <Avatar className="w-10 h-10 border-2 border-background">
-                                <AvatarImage src={student.imageUrl} alt={student.name} />
-                                <AvatarFallback className="text-xs font-bold text-primary bg-primary/10">
-                                  {student.avatar}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-sm">{student.name}</p>
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
-                                  <GraduationCap className="w-3 h-3 flex-shrink-0" />
-                                  <span className="truncate">{student.school}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground/80 mt-0.5">
-                                  <BookOpen className="w-3 h-3 flex-shrink-0" />
-                                  <span className="truncate">{student.program}</span>
-                                </div>
-                              </div>
-                              <div className="text-right flex-shrink-0">
-                                <p className="font-bold text-primary text-lg">{student.points}</p>
-                                <p className="text-xs text-muted-foreground">points</p>
-                              </div>
+                        {categoryLeaders.map((student, index) => (
+                          <div key={student.name} className="flex items-center gap-3 p-3 rounded-lg bg-muted/30">
+                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm font-bold">
+                              {index + 1}
                             </div>
-                          ))
-                        ) : (
-                          <div className="text-center py-8 text-muted-foreground">
-                            <p className="text-sm">No leaders yet</p>
-                            <p className="text-xs mt-1">Be the first to achieve!</p>
+                            <Avatar className="w-8 h-8">
+                              <AvatarImage src={student.imageUrl} alt={student.name} />
+                              <AvatarFallback className="text-xs font-bold text-primary bg-primary/10">
+                                {student.avatar}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <p className="font-medium">{student.name}</p>
+                              <p className="text-sm text-muted-foreground">{student.points} points</p>
+                            </div>
                           </div>
-                        )}
+                        ))}
                       </div>
                     </CardContent>
                   </Card>

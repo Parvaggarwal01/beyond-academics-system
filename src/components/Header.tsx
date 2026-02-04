@@ -1,32 +1,20 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Menu, X, Award, Users, Shield, LogOut } from "lucide-react";
+import { GraduationCap, Menu, X, Award, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const navigation = [
     { name: "Home", href: "/", icon: GraduationCap },
     { name: "Beyond Academics", href: "/beyond-academics", icon: Award },
-    { name: "Projects & Mentors", href: "/projects", icon: Users },
-    { name: "Admin", href: "/admin", icon: Shield },
   ];
 
   const isActive = (href: string) => {
     return location.pathname === href;
-  };
-
-  const isAdminRoute = location.pathname.startsWith('/admin');
-  const adminUser = isAdminRoute ? JSON.parse(localStorage.getItem("adminUser") || "null") : null;
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminUser");
-    navigate("/admin/login");
-    setIsMenuOpen(false);
   };
 
   return (
@@ -39,8 +27,8 @@ const Header = () => {
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold academic-heading">Edu Perks</h1>
-              <p className="text-xs text-muted-foreground">Excellence Portal</p>
+              <h1 className="text-xl font-bold academic-heading">LPU Co-Curricular</h1>
+              <p className="text-xs text-muted-foreground">Transcript System</p>
             </div>
           </Link>
 
@@ -69,34 +57,12 @@ const Header = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-2">
-            {isAdminRoute && adminUser ? (
-              <>
-                <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-lg">
-                  <Shield className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium">{adminUser.fullName}</span>
-                </div>
-                <Button variant="outline" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </>
-            ) : isAdminRoute ? (
-              <Button variant="outline" asChild>
-                <Link to="/admin/login">
-                  <Shield className="h-4 w-4 mr-2" />
-                  Admin Login
-                </Link>
-              </Button>
-            ) : (
-              <>
-                <Button variant="ghost" asChild>
-                  <Link to="/login">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link to="/signup">Sign Up</Link>
-                </Button>
-              </>
-            )}
+            <Button variant="ghost" asChild>
+              <Link to="/login">Login</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/signup">Sign Up</Link>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -139,37 +105,12 @@ const Header = () => {
               })}
 
               <div className="border-t pt-4 mt-4 flex flex-col space-y-2">
-                {isAdminRoute && adminUser ? (
-                  <>
-                    <div className="flex items-center gap-2 px-3 py-2 bg-primary/10 rounded-lg">
-                      <Shield className="h-4 w-4 text-primary" />
-                      <div>
-                        <p className="text-sm font-medium">{adminUser.fullName}</p>
-                        <p className="text-xs text-muted-foreground">{adminUser.role}</p>
-                      </div>
-                    </div>
-                    <Button variant="outline" onClick={handleLogout}>
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Logout
-                    </Button>
-                  </>
-                ) : isAdminRoute ? (
-                  <Button variant="outline" asChild>
-                    <Link to="/admin/login" onClick={() => setIsMenuOpen(false)}>
-                      <Shield className="h-4 w-4 mr-2" />
-                      Admin Login
-                    </Link>
-                  </Button>
-                ) : (
-                  <>
-                    <Button variant="outline" asChild>
-                      <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link to="/signup" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
-                    </Button>
-                  </>
-                )}
+                <Button variant="outline" asChild>
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link to="/signup" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
+                </Button>
               </div>
             </nav>
           </div>

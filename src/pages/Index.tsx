@@ -6,7 +6,10 @@ import {
   BookOpen, Award, Users, ArrowRight, Target, 
   TrendingUp, Lightbulb, GraduationCap, Star,
   CheckCircle, Trophy, FileText, MessageCircle, Zap,
-  Sparkles, Rocket, BarChart, Heart
+  Sparkles, Rocket, BarChart, Heart, Code, Dumbbell,
+  Music, UsersRound, Building2, HandHeart, Medal,
+  FileCheck, UserCheck, ShieldCheck, Download, QrCode,
+  ChevronRight, Clock, ThumbsUp
 } from "lucide-react";
 import Header from "@/components/Header";
 import { useState, useEffect } from "react";
@@ -20,53 +23,52 @@ const Index = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const pathways = [
+  const categories = [
+    { name: "Technical", icon: Code, color: "from-purple-500 to-indigo-600", count: "850+" },
+    { name: "Sports", icon: Dumbbell, color: "from-green-500 to-emerald-600", count: "620+" },
+    { name: "Cultural", icon: Music, color: "from-pink-500 to-rose-600", count: "490+" },
+    { name: "Arts & Culture", icon: UsersRound, color: "from-orange-500 to-amber-600", count: "496+" },
+    { name: "Startup", icon: Rocket, color: "from-indigo-500 to-violet-600", count: "320+" },
+    { name: "Community", icon: HandHeart, color: "from-rose-500 to-red-600", count: "410+" },
+    { name: "Club", icon: Building2, color: "from-cyan-500 to-blue-600", count: "550+" },
+  ];
+
+  const workflow = [
     {
-      title: "Beyond Academics",
-      subtitle: "Holistic Achievement Pathway",
-      description: "Showcase achievements beyond the classroom - sports, cultural activities, competitions, and extracurricular excellence with direct academic benefits.",
-      icon: Trophy,
-      href: "/beyond-academics",
-      color: "secondary",
-      features: [
-        "Sports & cultural achievements",
-        "Competition recognition",
-        "Scholarship opportunities",
-        "Holistic development rewards"
-      ],
-      gradient: "from-green-500 to-emerald-600",
-      bgGradient: "from-green-50 to-emerald-50"
+      step: "1",
+      title: "Student Submission",
+      description: "Submit your achievements with detailed information and certificate uploads across 7 categories",
+      icon: FileCheck,
+      color: "from-blue-500 to-cyan-500"
     },
     {
-      title: "Projects & Mentors",
-      subtitle: "Innovation & Collaboration",
-      description: "Engage in cutting-edge research projects and connect with expert faculty mentors. Build skills while contributing to impactful innovations.",
-      icon: Users,
-      href: "/projects",
-      color: "success",
-      features: [
-        "Research project opportunities",
-        "Expert faculty mentorship",
-        "Skill development programs",
-        "Industry collaboration"
-      ],
-      gradient: "from-blue-500 to-indigo-600",
-      bgGradient: "from-blue-50 to-indigo-50"
+      step: "2", 
+      title: "Faculty Recommendation",
+      description: "Faculty members review submissions and provide recommendations for approval",
+      icon: UserCheck,
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      step: "3",
+      title: "HOD Final Approval",
+      description: "Department heads give final approval after reviewing faculty recommendations",
+      icon: ShieldCheck,
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      step: "4",
+      title: "Transcript Generation",
+      description: "Download your official co-curricular transcript with QR verification code",
+      icon: Download,
+      color: "from-orange-500 to-red-500"
     }
   ];
 
-  const quickLinks = [
-    { name: "Submit Achievement", icon: Target, href: "/beyond-academics-add-achievement" },
-    { name: "Beyond Academics", icon: Trophy, href: "/beyond-academics" },
-    { name: "Policies & Guidelines", icon: BookOpen, href: "#" },
-    { name: "Contact Support", icon: MessageCircle, href: "#" }
-  ];
-
   const stats = [
-    { label: "Active Students", value: "2,847", icon: Users },
-    { label: "Achievements Verified", value: "12,453", icon: CheckCircle },
-    { label: "Benefits Unlocked", value: "8,921", icon: Star },
-    { label: "Success Rate", value: "94.7%", icon: TrendingUp }
+    { label: "Active Students", value: "2,847", icon: Users, change: "+12.5%" },
+    { label: "Transcripts Generated", value: "1,453", icon: Award, change: "+8.3%" },
+    { label: "Approved Achievements", value: "8,921", icon: Medal, change: "+15.7%" },
+    { label: "Approval Rate", value: "94.7%", icon: TrendingUp, change: "+2.1%" }
   ];
 
   return (
@@ -98,20 +100,20 @@ const Index = () => {
             <div className="mb-8 animate-fade-in">
               <Badge className="bg-white/20 text-white border-white/30 px-6 py-3 backdrop-blur-md text-lg hover:scale-110 transition-transform duration-300">
                 <Sparkles className="w-5 h-5 mr-2 inline" />
-                Excellence Recognition Platform
+                Official Transcript Management
               </Badge>
             </div>
             
             {/* Main Heading with Gradient */}
             <h1 className="text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-white mb-8 leading-tight drop-shadow-2xl animate-fade-in-up">
-              EDU REVOLUTION
+              CO-CURRICULAR EXCELLENCE
             </h1>
             
             <p className="text-xl md:text-3xl text-white/95 mb-12 leading-relaxed drop-shadow-lg font-light max-w-3xl mx-auto animate-fade-in-up delay-200">
-              Revolutionizing the way student achievements are{" "}
-              <span className="font-bold text-yellow-300">recognized</span>,{" "}
-              <span className="font-bold text-green-300">verified</span>, and{" "}
-              <span className="font-bold text-pink-300">rewarded</span>
+              Document your journey at LPU with official{" "}
+              <span className="font-bold text-yellow-300">co-curricular transcripts</span>,{" "}
+              <span className="font-bold text-green-300">multi-level approvals</span>, and{" "}
+              <span className="font-bold text-pink-300">verified achievements</span>
             </p>
 
             {/* CTA Buttons */}
@@ -122,9 +124,9 @@ const Index = () => {
                 asChild 
                 className="shadow-2xl hover:shadow-yellow-500/50 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold px-8 py-6 text-lg group"
               >
-                <Link to="/edu-rev">
+                <Link to="/beyond-academics">
                   <Rocket className="mr-2 h-6 w-6 group-hover:rotate-12 transition-transform" />
-                  Start Your Journey
+                  Submit Achievement
                   <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </Button>
@@ -166,88 +168,38 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Main Pathways with Enhanced Design */}
-      <section className="py-20 md:py-32 px-4 relative overflow-hidden">
-        {/* Background Decoration */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-0 w-96 h-96 bg-purple-200 rounded-full filter blur-3xl opacity-20"></div>
-          <div className="absolute bottom-20 left-0 w-96 h-96 bg-blue-200 rounded-full filter blur-3xl opacity-20"></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16 md:mb-20">
-            <Badge className="mb-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 px-6 py-2 text-base">
-              <Zap className="w-4 h-4 mr-2 inline" />
-              Your Success Pathways
+      {/* Achievement Categories Showcase */}
+      <section className="py-20 px-4 bg-white relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 px-6 py-2">
+              <Trophy className="w-4 h-4 mr-2 inline" />
+              7 Achievement Categories
             </Badge>
-            <h2 className="text-4xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-gray-900 via-purple-900 to-gray-900 bg-clip-text text-transparent">
-              Choose Your Path to Excellence
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Showcase Your Excellence
             </h2>
-            <p className="text-lg md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Specialized pathways designed to <span className="font-semibold text-purple-600">capture</span>, <span className="font-semibold text-blue-600">verify</span>, and <span className="font-semibold text-green-600">reward</span> your achievements
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Submit achievements across multiple categories and build your comprehensive co-curricular profile
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 max-w-7xl mx-auto">
-            {pathways.map((pathway, index) => {
-              const Icon = pathway.icon;
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 max-w-7xl mx-auto">
+            {categories.map((category, index) => {
+              const Icon = category.icon;
               return (
                 <Card 
-                  key={index} 
-                  className={`relative shadow-2xl hover:shadow-3xl transition-all duration-700 hover:-translate-y-3 group overflow-hidden border-0 bg-gradient-to-br ${pathway.bgGradient}`}
+                  key={index}
+                  className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 hover:border-transparent overflow-hidden relative"
                 >
-                  {/* Animated Border Gradient */}
-                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`absolute inset-0 bg-gradient-to-r ${pathway.gradient} opacity-10`}></div>
-                  </div>
-
-                  {/* Decorative Elements */}
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-white/50 rounded-full filter blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
-                  
-                  <CardHeader className="relative z-10 p-8 space-y-6">
-                    <div className={`flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br ${pathway.gradient} shadow-2xl mb-2 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                      <Icon className="h-10 w-10 text-white drop-shadow-lg" />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity`}></div>
+                  <CardContent className="p-6 text-center relative">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                      <Icon className="w-8 h-8 text-white" />
                     </div>
-                    
-                    <div>
-                      <CardTitle className="text-3xl md:text-4xl mb-3 font-bold">{pathway.title}</CardTitle>
-                      <CardDescription className="text-xl font-semibold bg-gradient-to-r ${pathway.gradient} bg-clip-text text-transparent mb-4">
-                        {pathway.subtitle}
-                      </CardDescription>
-                      <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                        {pathway.description}
-                      </p>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="relative z-10 space-y-6 p-8 pt-0">
-                    <div className="space-y-4 bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/80">
-                      {pathway.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-3 group/item">
-                          <div className={`flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br ${pathway.gradient} flex items-center justify-center group-hover/item:scale-110 transition-transform`}>
-                            <CheckCircle className="h-5 w-5 text-white" />
-                          </div>
-                          <span className="text-base font-medium text-gray-800">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <Button 
-                      asChild 
-                      className={`w-full py-7 text-lg font-bold group-hover:scale-105 transition-all duration-300 shadow-xl bg-gradient-to-r ${pathway.gradient} hover:shadow-2xl border-0`}
-                    >
-                      <Link to={pathway.href} className="flex items-center justify-center">
-                        <Rocket className="mr-2 h-6 w-6 group-hover:rotate-12 transition-transform" />
-                        Explore {pathway.title}
-                        <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-2 transition-transform" />
-                      </Link>
-                    </Button>
+                    <h3 className="font-bold text-sm mb-2">{category.name}</h3>
+                    <Badge variant="secondary" className="text-xs">{category.count}</Badge>
                   </CardContent>
-
-                  {/* Hover Shine Effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                  </div>
                 </Card>
               );
             })}
@@ -255,59 +207,287 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Quick Links with Modern Design */}
-      <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
+      {/* Workflow Process Timeline */}
+      <section className="py-20 px-4 bg-gradient-to-b from-slate-50 to-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 px-6 py-2">
+              <Clock className="w-4 h-4 mr-2 inline" />
+              Simple Process
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              How It Works
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              From submission to official transcript in 4 easy steps
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {workflow.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <Card 
+                    key={index}
+                    className="relative group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-0"
+                  >
+                    {/* Connection Line */}
+                    {index < workflow.length - 1 && (
+                      <div className="hidden lg:block absolute top-16 left-full w-8 h-0.5 bg-gradient-to-r from-gray-300 to-transparent z-0"></div>
+                    )}
+                    
+                    <CardContent className="p-8 text-center relative">
+                      {/* Step Number Badge */}
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                        <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${step.color} text-white font-bold text-xl flex items-center justify-center shadow-lg`}>
+                          {step.step}
+                        </div>
+                      </div>
+
+                      <div className="mt-4 mb-6">
+                        <div className={`w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl`}>
+                          <Icon className="w-10 h-10 text-white" />
+                        </div>
+                      </div>
+
+                      <h3 className="font-bold text-xl mb-3">{step.title}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-16">
+            <Button asChild size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-8 py-6 text-lg shadow-xl">
+              <Link to="/beyond-academics">
+                <Rocket className="w-5 h-5 mr-2" />
+                Start Your First Submission
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* User Roles Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-gradient-to-r from-orange-500 to-red-500 text-white border-0 px-6 py-2">
+              <Users className="w-4 h-4 mr-2 inline" />
+              For Everyone
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Role-Based Access
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Designed for students, faculty, and administrators
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Student Card */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-transparent hover:border-blue-500">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <GraduationCap className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-bold text-2xl mb-4">Students</h3>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Submit achievements easily</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Track approval status</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Generate transcripts</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">View semester-wise points</span>
+                  </li>
+                </ul>
+                <Button asChild className="w-full bg-blue-500 hover:bg-blue-600">
+                  <Link to="/login">
+                    Student Login
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Faculty Card */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-transparent hover:border-purple-500">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <UserCheck className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-bold text-2xl mb-4">Faculty</h3>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Review submissions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Provide recommendations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Add comments & feedback</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Filter by category</span>
+                  </li>
+                </ul>
+                <Button asChild className="w-full bg-purple-500 hover:bg-purple-600">
+                  <Link to="/admin/faculty">
+                    Faculty Portal
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* HOD Card */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-transparent hover:border-green-500">
+              <CardContent className="p-8">
+                <div className="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <ShieldCheck className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="font-bold text-2xl mb-4">HOD</h3>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Final approval authority</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Review faculty recommendations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Analytics & reports</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-600">Export capabilities</span>
+                  </li>
+                </ul>
+                <Button asChild className="w-full bg-green-500 hover:bg-green-600">
+                  <Link to="/admin/hod">
+                    HOD Dashboard
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* LPU Exclusive Benefits Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-blue-50 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.5) 1px, transparent 0)", backgroundSize: "40px 40px" }}></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 px-6 py-2">
-              <Zap className="w-4 h-4 mr-2 inline" />
-              Quick Access
+            <Badge className="mb-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 px-6 py-2 text-base">
+              <Star className="w-4 h-4 mr-2 inline" />
+              System Features
             </Badge>
-            <h3 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-              Everything You Need
+            <h3 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-900 via-orange-600 to-blue-900 bg-clip-text text-transparent">
+              Comprehensive Transcript Management
             </h3>
             <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">
-              Frequently used features and important resources at your fingertips
+              A complete co-curricular documentation system designed specifically for LPU students
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {quickLinks.map((link, index) => {
-              const Icon = link.icon;
-              const colors = [
-                { bg: "from-purple-500 to-pink-500", ring: "ring-purple-200" },
-                { bg: "from-blue-500 to-cyan-500", ring: "ring-blue-200" },
-                { bg: "from-green-500 to-emerald-500", ring: "ring-green-200" },
-                { bg: "from-orange-500 to-red-500", ring: "ring-orange-200" }
-              ];
-              const color = colors[index % colors.length];
-              
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-20">
+            {[
+              {
+                icon: FileText,
+                title: "Multi-Level Approval",
+                description: "Faculty recommendation and HOD final approval workflow",
+                gradient: "from-purple-500 to-indigo-600",
+                bgColor: "from-purple-50 to-indigo-50"
+              },
+              {
+                icon: CheckCircle,
+                title: "7 Achievement Categories",
+                description: "Technical, Sports, Cultural, Leadership, Startup, Community, Club",
+                gradient: "from-blue-500 to-cyan-600",
+                bgColor: "from-blue-50 to-cyan-50"
+              },
+              {
+                icon: BookOpen,
+                title: "Semester-Wise Tracking",
+                description: "Automatic semester detection and academic year classification",
+                gradient: "from-green-500 to-emerald-600",
+                bgColor: "from-green-50 to-emerald-50"
+              },
+              {
+                icon: Trophy,
+                title: "Points & Grades",
+                description: "Auto-calculated merit points with grade system (O to D)",
+                gradient: "from-amber-500 to-orange-600",
+                bgColor: "from-amber-50 to-orange-50"
+              },
+              {
+                icon: QrCode,
+                title: "QR Verification",
+                description: "Secure QR code for transcript authenticity verification",
+                gradient: "from-pink-500 to-rose-600",
+                bgColor: "from-pink-50 to-rose-50"
+              },
+              {
+                icon: Download,
+                title: "PDF Transcripts",
+                description: "Professional downloadable transcripts with LPU branding",
+                gradient: "from-violet-500 to-purple-600",
+                bgColor: "from-violet-50 to-purple-50"
+              }
+            ].map((benefit, index) => {
+              const Icon = benefit.icon;
               return (
                 <Card 
                   key={index} 
-                  className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer border-0 bg-white overflow-hidden relative"
+                  className={`group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border-0 bg-gradient-to-br ${benefit.bgColor} overflow-hidden relative`}
                 >
-                  {/* Animated Background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${color.bg} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  {/* Animated Background Glow */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  
+                  {/* Shine Effect */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/30 rounded-full filter blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
                   
                   <CardContent className="p-8 relative z-10">
-                    <div className={`flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${color.bg} shadow-lg mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 ring-4 ${color.ring} ring-opacity-50`}>
+                    <div className={`flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${benefit.gradient} shadow-lg mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
                       <Icon className="h-8 w-8 text-white" />
                     </div>
-                    <h4 className="font-bold text-lg text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${color.bg} transition-all">
-                      {link.name}
+                    <h4 className="font-bold text-xl text-gray-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${benefit.gradient} transition-all">
+                      {benefit.title}
                     </h4>
-                  </CardContent>
+                    <p className="text-gray-600 leading-relaxed">
+                      {benefit.description}
+                    </p>
 
-                  {/* Hover Arrow */}
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className={`h-6 w-6 bg-gradient-to-r ${color.bg} bg-clip-text text-transparent`} />
-                  </div>
+                    {/* Progress Bar Animation */}
+                    <div className="mt-6 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div className={`h-full bg-gradient-to-r ${benefit.gradient} transform -translate-x-full group-hover:translate-x-0 transition-transform duration-1000 ease-out`}></div>
+                    </div>
+                  </CardContent>
                 </Card>
               );
             })}
@@ -315,87 +495,29 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced CTA Section */}
-      <section className="py-20 md:py-32 px-4 relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500">
-          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E')" }}></div>
-        </div>
-
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="max-w-5xl mx-auto">
-            {/* Icon with Animation */}
-            <div className="mb-8 inline-block animate-bounce">
-              <div className="w-24 h-24 mx-auto rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border-4 border-white/30">
-                <GraduationCap className="h-14 w-14 text-white drop-shadow-lg" />
-              </div>
-            </div>
-            
-            <h3 className="text-4xl md:text-6xl font-extrabold text-white mb-6 drop-shadow-2xl leading-tight">
-              Ready to Unlock Your Potential?
-            </h3>
-            
-            <p className="text-xl md:text-2xl text-white/95 mb-12 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-              Join <span className="font-bold text-yellow-300">2,847+</span> students who have already transformed their academic journey. 
-              Start submitting your achievements today and unlock the benefits you deserve.
+      {/* Final CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to Document Your Journey?
+            </h2>
+            <p className="text-xl md:text-2xl mb-10 text-white/90">
+              Start building your official co-curricular transcript today
             </p>
-
-            {/* Feature Pills */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {[
-                { icon: BarChart, text: "Track Progress" },
-                { icon: Trophy, text: "Earn Recognition" },
-                { icon: Heart, text: "Build Profile" },
-                { icon: Star, text: "Unlock Benefits" }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center space-x-2 bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105">
-                  <item.icon className="h-5 w-5 text-white" />
-                  <span className="text-white font-medium">{item.text}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-6">
-              <Button 
-                variant="hero" 
-                size="lg" 
-                asChild 
-                className="w-full sm:w-auto bg-white text-purple-600 hover:bg-gray-100 shadow-2xl hover:shadow-white/50 px-10 py-7 text-xl font-bold group border-4 border-white/50"
-              >
-                <Link to="/edu-rev" className="flex items-center justify-center">
-                  <Sparkles className="mr-2 h-6 w-6 group-hover:rotate-12 transition-transform" />
-                  Submit First Achievement
-                  <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-2 transition-transform" />
+            <div className="flex flex-wrap justify-center gap-6">
+              <Button asChild size="lg" className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-8 py-6 text-lg shadow-2xl">
+                <Link to="/beyond-academics">
+                  <FileCheck className="w-5 h-5 mr-2" />
+                  Submit Achievement
                 </Link>
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full sm:w-auto bg-transparent border-4 border-white/50 text-white hover:bg-white hover:text-purple-600 backdrop-blur-md px-10 py-7 text-xl font-bold group transition-all duration-300" 
-                asChild
-              >
-                <Link to="/projects" className="flex items-center justify-center">
-                  <Users className="mr-2 h-6 w-6 group-hover:scale-110 transition-transform" />
-                  Browse Projects
+              <Button asChild size="lg" className="bg-white/20 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-purple-600 font-semibold px-8 py-6 text-lg transition-all">
+                <Link to="/transcript">
+                  <Download className="w-5 h-5 mr-2" />
+                  View Transcript
                 </Link>
               </Button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="mt-16 flex flex-wrap justify-center items-center gap-8 text-white/80">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5" />
-                <span className="text-sm font-medium">100% Secure</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5" />
-                <span className="text-sm font-medium">Instant Verification</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="h-5 w-5" />
-                <span className="text-sm font-medium">24/7 Support</span>
-              </div>
             </div>
           </div>
         </div>
