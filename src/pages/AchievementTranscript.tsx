@@ -3,14 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Download, FileText, CheckCircle, XCircle, Clock, AlertCircle, QrCode } from "lucide-react";
+import {
+  Download,
+  FileText,
+  CheckCircle,
+  XCircle,
+  Clock,
+  AlertCircle,
+  QrCode,
+  Eye,
+} from "lucide-react";
 import { getAllSemesters } from "@/utils/semesterUtils";
-import { generateTranscriptPDF } from "@/utils/pdfGenerator";
+import {
+  generateTranscriptPDF,
+  generateAllSemestersInOnePDF,
+} from "@/utils/pdfGenerator";
+import {
+  studentProfile,
+  allAchievements,
+  academicYears,
+  getTranscriptData,
+} from "@/data/dummyTranscriptData";
 
 interface Achievement {
   id: string;
@@ -57,135 +81,85 @@ export default function AchievementTranscript() {
 
   const fetchData = async () => {
     try {
-      // DUMMY DATA FOR DEMONSTRATION
+      // DUMMY DATA FOR DEMONSTRATION - Using comprehensive data for all 8 semesters
       const dummyProfile = {
         id: "dummy-user-123",
-        full_name: "Demo Student",
-        registration_number: "12345678",
-        school: "School of Computer Science and Engineering",
-        program: "B.Tech Computer Science and Engineering",
-        father_name: "Demo Father",
-        mother_name: "Demo Mother",
+        full_name: studentProfile.student_name,
+        registration_number: studentProfile.registration_number,
+        school: studentProfile.school,
+        program: studentProfile.program,
+        father_name: studentProfile.father_name,
+        mother_name: studentProfile.mother_name,
       };
 
-      const dummyAchievements: Achievement[] = [
-        // Sem-1 Achievements
-        {
-          id: "1",
-          title: "Smart India Hackathon Winner",
-          category: "technical",
-          date: "2025-08-15",
-          level: "National",
-          position: "1st Prize",
-          calculated_points: 100,
-          status: "approved",
-          event_type: "Hackathon",
-          organizer: "AICTE",
-          semester: "Sem-1",
-          academic_year: "2025-2026",
-        },
-        {
-          id: "2",
-          title: "Inter-College Basketball Tournament",
-          category: "sports",
-          date: "2025-09-10",
-          level: "State",
-          position: "Gold Medal",
-          calculated_points: 80,
-          status: "approved",
-          event_type: "Basketball",
-          organizer: "Sports Authority",
-          semester: "Sem-1",
-          academic_year: "2025-2026",
-        },
-        {
-          id: "3",
-          title: "Classical Dance Competition",
-          category: "cultural",
-          date: "2025-10-05",
-          level: "University",
-          position: "2nd Prize",
-          calculated_points: 60,
-          status: "approved",
-          event_type: "Dance",
-          organizer: "Cultural Committee",
-          semester: "Sem-1",
-          academic_year: "2025-2026",
-        },
-        // Sem-2 Achievements with mixed status
-        {
-          id: "4",
-          title: "CodeChef Long Challenge",
-          category: "technical",
-          date: "2026-01-20",
-          level: "International",
-          position: "Top 100",
-          calculated_points: 70,
-          status: "pending",
-          event_type: "Coding Contest",
-          organizer: "CodeChef",
-          semester: "Sem-2",
-          academic_year: "2025-2026",
-        },
-        {
-          id: "5",
-          title: "Research Paper Publication",
-          category: "technical",
-          date: "2026-02-01",
-          level: "International",
-          position: "Published",
-          calculated_points: 90,
-          status: "approved",
-          event_type: "Research",
-          organizer: "IEEE",
-          semester: "Sem-2",
-          academic_year: "2025-2026",
-        },
-        {
-          id: "6",
-          title: "Cricket Tournament",
-          category: "sports",
-          date: "2025-12-15",
-          level: "State",
-          position: "Silver Medal",
-          calculated_points: 70,
-          status: "approved",
-          event_type: "Cricket",
-          organizer: "State Sports Board",
-          semester: "Sem-2",
-          academic_year: "2025-2026",
-        },
-        {
-          id: "7",
-          title: "Debate Competition",
-          category: "arts_culture",
-          date: "2026-01-10",
-          level: "National",
-          position: "1st Prize",
-          calculated_points: 75,
-          status: "rejected",
-          event_type: "Debate",
-          organizer: "National Debate Society",
-          semester: "Sem-2",
-          academic_year: "2025-2026",
-        },
-      ];
+      // Convert allAchievements object to array format with status
+      const dummyAchievements: Achievement[] = Object.entries(
+        allAchievements,
+      ).flatMap(([semester, achievements]) =>
+        achievements.map((achievement, index) => ({
+          id: `${semester}-${index}`,
+          title: achievement.title,
+          category: achievement.category,
+          date: achievement.date,
+          level: achievement.level,
+          position: achievement.position,
+          calculated_points: achievement.calculated_points,
+          status: "approved", // All dummy achievements are approved
+          event_type: achievement.event_type,
+          organizer: achievement.organizer,
+          semester: semester,
+          academic_year: academicYears[semester],
+        })),
+      );
 
-      const dummyTranscripts: TranscriptData[] = [
-        {
-          id: "transcript-1",
-          semester: "Sem-1",
-          academic_year: "2025-2026",
-          generated_at: "2025-12-20T10:30:00Z",
-          verification_code: "BA-TR-2025-12345678-SEM1-ABC123",
-          is_final: true,
-          transcript_data: {
-            achievements: dummyAchievements.filter(a => a.semester === "Sem-1" && a.status === "approved"),
-            total_points: 240,
-            grade: "O",
-          },
-        },
+      // Generate transcripts for Sem-1 through Sem-6
+      const completedSemesters = [
+        "Sem-1",
+        "Sem-2",
+        "Sem-3",
+        "Sem-4",
+        "Sem-5",
+        "Sem-6",
       ];
+      const dummyTranscripts: TranscriptData[] = completedSemesters.map(
+        (sem, index) => {
+          const semAchievements = dummyAchievements.filter(
+            (a) => a.semester === sem && a.status === "approved",
+          );
+          const totalPoints = semAchievements.reduce(
+            (sum, a) => sum + a.calculated_points,
+            0,
+          );
+          const grade =
+            totalPoints >= 250
+              ? "O"
+              : totalPoints >= 200
+                ? "A+"
+                : totalPoints >= 150
+                  ? "A"
+                  : totalPoints >= 100
+                    ? "B+"
+                    : "B";
+
+          return {
+            id: `transcript-${index + 1}`,
+            semester: sem,
+            academic_year: academicYears[sem],
+            generated_at: new Date(
+              2023 + Math.floor(index / 2),
+              (index % 2) * 6 + 5,
+              15,
+            ).toISOString(),
+            verification_code: `BA-TR-${2023 + Math.floor(index / 2)}-${studentProfile.registration_number}-${sem.toUpperCase()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+            is_final: true,
+            transcript_data: {
+              achievements: semAchievements,
+              total_points: totalPoints,
+              grade: grade,
+            },
+          };
+        },
+      );
 
       setProfile(dummyProfile as any);
       setAchievements(dummyAchievements);
@@ -254,23 +228,33 @@ export default function AchievementTranscript() {
   };
 
   const getSemesterAchievements = (semester: string) => {
-    return achievements.filter(a => a.semester === semester);
+    return achievements.filter((a) => a.semester === semester);
   };
 
   const getSemesterStats = (semester: string) => {
     const semesterAchievements = getSemesterAchievements(semester);
-    const approved = semesterAchievements.filter(a => a.status === "approved");
-    const pending = semesterAchievements.filter(a => a.status === "pending");
-    const rejected = semesterAchievements.filter(a => a.status === "rejected");
-    const totalPoints = approved.reduce((sum, a) => sum + (a.calculated_points || 0), 0);
-    
+    const approved = semesterAchievements.filter(
+      (a) => a.status === "approved",
+    );
+    const pending = semesterAchievements.filter((a) => a.status === "pending");
+    const rejected = semesterAchievements.filter(
+      (a) => a.status === "rejected",
+    );
+    const totalPoints = approved.reduce(
+      (sum, a) => sum + (a.calculated_points || 0),
+      0,
+    );
+
     return {
       total: semesterAchievements.length,
       approved: approved.length,
       pending: pending.length,
       rejected: rejected.length,
       totalPoints,
-      isEligible: semesterAchievements.length > 0 && pending.length === 0 && approved.length > 0,
+      isEligible:
+        semesterAchievements.length > 0 &&
+        pending.length === 0 &&
+        approved.length > 0,
     };
   };
 
@@ -287,21 +271,26 @@ export default function AchievementTranscript() {
   const generateTranscript = async (semester: string) => {
     try {
       setGeneratingTranscript(true);
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const stats = getSemesterStats(semester);
       if (!stats.isEligible) {
         toast({
           title: "Cannot Generate Transcript",
-          description: "All achievements must be reviewed and at least one must be approved.",
+          description:
+            "All achievements must be reviewed and at least one must be approved.",
           variant: "destructive",
         });
         return;
       }
 
       const semesterAchievements = getSemesterAchievements(semester);
-      const approvedAchievements = semesterAchievements.filter(a => a.status === "approved");
+      const approvedAchievements = semesterAchievements.filter(
+        (a) => a.status === "approved",
+      );
       const academicYear = approvedAchievements[0]?.academic_year || "";
 
       const transcriptData = {
@@ -348,7 +337,7 @@ export default function AchievementTranscript() {
 
   const downloadTranscript = async (transcriptId: string) => {
     try {
-      const transcript = transcripts.find(t => t.id === transcriptId);
+      const transcript = transcripts.find((t) => t.id === transcriptId);
       if (!transcript) {
         toast({
           title: "Error",
@@ -374,7 +363,7 @@ export default function AchievementTranscript() {
         mother_name: profile.mother_name,
       };
 
-      await generateTranscriptPDF(pdfData);
+      await generateTranscriptPDF(pdfData, "download");
 
       toast({
         title: "Success",
@@ -384,6 +373,76 @@ export default function AchievementTranscript() {
       toast({
         title: "Error",
         description: error.message || "Failed to download transcript",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const viewTranscript = async (transcriptId: string) => {
+    try {
+      const transcript = transcripts.find((t) => t.id === transcriptId);
+      if (!transcript) {
+        toast({
+          title: "Error",
+          description: "Transcript not found",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const pdfData = {
+        student_name: profile.full_name,
+        registration_number: profile.registration_number,
+        school: profile.school,
+        program: profile.program,
+        semester: transcript.semester,
+        academic_year: transcript.academic_year,
+        achievements: transcript.transcript_data.achievements,
+        total_points: transcript.transcript_data.total_points,
+        grade: transcript.transcript_data.grade,
+        generated_at: transcript.generated_at,
+        verification_code: transcript.verification_code,
+        father_name: profile.father_name,
+        mother_name: profile.mother_name,
+      };
+
+      await generateTranscriptPDF(pdfData, "view");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to view transcript",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const viewAllSemestersTranscript = async () => {
+    try {
+      await generateAllSemestersInOnePDF("view");
+      toast({
+        title: "Success",
+        description: "Combined transcript opened in new tab!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to view combined transcript",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const downloadAllSemestersTranscript = async () => {
+    try {
+      await generateAllSemestersInOnePDF("download");
+      toast({
+        title: "Success",
+        description: "Combined transcript downloaded successfully!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to download combined transcript",
         variant: "destructive",
       });
     }
@@ -430,8 +489,12 @@ export default function AchievementTranscript() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Achievement Transcripts</h1>
-            <p className="text-gray-600 mt-2">View and generate your semester-wise achievement transcripts</p>
+            <h1 className="text-4xl font-bold text-gray-900">
+              Achievement Transcripts
+            </h1>
+            <p className="text-gray-600 mt-2">
+              View and generate your semester-wise achievement transcripts
+            </p>
           </div>
           <Button variant="outline" onClick={() => navigate("/dashboard")}>
             Back to Dashboard
@@ -465,6 +528,40 @@ export default function AchievementTranscript() {
           </Card>
         )}
 
+        {/* Combined All Semesters Transcript Card */}
+        <Card className="border-blue-200 bg-blue-50">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  All Semesters Combined Transcript
+                </CardTitle>
+                <CardDescription>
+                  View or download transcript with all achievements from Sem-1
+                  to Sem-8
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2">
+              <Button
+                onClick={viewAllSemestersTranscript}
+                variant="outline"
+                size="lg"
+              >
+                <Eye className="h-4 w-4 mr-2" />
+                View All Semesters PDF
+              </Button>
+              <Button onClick={downloadAllSemestersTranscript} size="lg">
+                <Download className="h-4 w-4 mr-2" />
+                Download All Semesters PDF
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Semester Tabs */}
         <Tabs value={selectedSemester} onValueChange={setSelectedSemester}>
           <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8">
@@ -478,40 +575,54 @@ export default function AchievementTranscript() {
           {semesters.map((sem) => {
             const stats = getSemesterStats(sem.value);
             const existingTranscript = transcripts.find(
-              t => t.semester === sem.value && t.is_final
+              (t) => t.semester === sem.value && t.is_final,
             );
 
             return (
-              <TabsContent key={sem.value} value={sem.value} className="space-y-6">
+              <TabsContent
+                key={sem.value}
+                value={sem.value}
+                className="space-y-6"
+              >
                 {/* Semester Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   <Card>
                     <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+                      <div className="text-2xl font-bold text-blue-600">
+                        {stats.total}
+                      </div>
                       <div className="text-sm text-gray-600">Total</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
+                      <div className="text-2xl font-bold text-green-600">
+                        {stats.approved}
+                      </div>
                       <div className="text-sm text-gray-600">Approved</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
+                      <div className="text-2xl font-bold text-yellow-600">
+                        {stats.pending}
+                      </div>
                       <div className="text-sm text-gray-600">Pending</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
+                      <div className="text-2xl font-bold text-red-600">
+                        {stats.rejected}
+                      </div>
                       <div className="text-sm text-gray-600">Rejected</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <div className="text-2xl font-bold text-purple-600">{stats.totalPoints}</div>
+                      <div className="text-2xl font-bold text-purple-600">
+                        {stats.totalPoints}
+                      </div>
                       <div className="text-sm text-gray-600">Points</div>
                     </CardContent>
                   </Card>
@@ -522,13 +633,11 @@ export default function AchievementTranscript() {
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      {stats.pending > 0 ? (
-                        `You have ${stats.pending} pending achievement(s). Transcript can only be generated after all achievements are reviewed.`
-                      ) : stats.approved === 0 ? (
-                        "At least one approved achievement is required to generate a transcript."
-                      ) : (
-                        "Transcript generation not available for this semester."
-                      )}
+                      {stats.pending > 0
+                        ? `You have ${stats.pending} pending achievement(s). Transcript can only be generated after all achievements are reviewed.`
+                        : stats.approved === 0
+                          ? "At least one approved achievement is required to generate a transcript."
+                          : "Transcript generation not available for this semester."}
                     </AlertDescription>
                   </Alert>
                 )}
@@ -553,11 +662,17 @@ export default function AchievementTranscript() {
                             Transcript Generated
                           </CardTitle>
                           <CardDescription>
-                            Generated on {new Date(existingTranscript.generated_at).toLocaleDateString()}
+                            Generated on{" "}
+                            {new Date(
+                              existingTranscript.generated_at,
+                            ).toLocaleDateString()}
                           </CardDescription>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-lg px-3 py-1">
+                          <Badge
+                            variant="outline"
+                            className="text-lg px-3 py-1"
+                          >
                             Grade: {existingTranscript.transcript_data.grade}
                           </Badge>
                         </div>
@@ -572,16 +687,38 @@ export default function AchievementTranscript() {
                           </p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-600">Verification Code</p>
-                          <p className="font-mono text-sm">{existingTranscript.verification_code}</p>
+                          <p className="text-sm text-gray-600">
+                            Verification Code
+                          </p>
+                          <p className="font-mono text-sm">
+                            {existingTranscript.verification_code}
+                          </p>
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button onClick={() => downloadTranscript(existingTranscript.id)}>
+                        <Button
+                          onClick={() => viewTranscript(existingTranscript.id)}
+                          variant="outline"
+                        >
+                          <Eye className="h-4 w-4 mr-2" />
+                          View PDF
+                        </Button>
+                        <Button
+                          onClick={() =>
+                            downloadTranscript(existingTranscript.id)
+                          }
+                        >
                           <Download className="h-4 w-4 mr-2" />
                           Download PDF
                         </Button>
-                        <Button variant="outline" onClick={() => navigate(`/verify-transcript/${existingTranscript.verification_code}`)}>
+                        <Button
+                          variant="outline"
+                          onClick={() =>
+                            navigate(
+                              `/verify-transcript/${existingTranscript.verification_code}`,
+                            )
+                          }
+                        >
                           <QrCode className="h-4 w-4 mr-2" />
                           View QR Code
                         </Button>
@@ -596,7 +733,8 @@ export default function AchievementTranscript() {
                     <CardHeader>
                       <CardTitle>Generate Transcript</CardTitle>
                       <CardDescription>
-                        All achievements have been reviewed. You can now generate your transcript.
+                        All achievements have been reviewed. You can now
+                        generate your transcript.
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -606,7 +744,9 @@ export default function AchievementTranscript() {
                         size="lg"
                       >
                         <FileText className="h-4 w-4 mr-2" />
-                        {generatingTranscript ? "Generating..." : "Generate Transcript"}
+                        {generatingTranscript
+                          ? "Generating..."
+                          : "Generate Transcript"}
                       </Button>
                     </CardContent>
                   </Card>
@@ -620,41 +760,59 @@ export default function AchievementTranscript() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {getSemesterAchievements(sem.value).map((achievement) => (
-                          <div
-                            key={achievement.id}
-                            className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-                          >
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                {getStatusIcon(achievement.status)}
-                                <h4 className="font-semibold">{achievement.title}</h4>
+                        {getSemesterAchievements(sem.value).map(
+                          (achievement) => (
+                            <div
+                              key={achievement.id}
+                              className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                            >
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                  {getStatusIcon(achievement.status)}
+                                  <h4 className="font-semibold">
+                                    {achievement.title}
+                                  </h4>
+                                </div>
+                                <div className="text-sm text-gray-600 space-y-1">
+                                  <p>
+                                    <span className="font-medium">
+                                      Category:
+                                    </span>{" "}
+                                    {achievement.category
+                                      .charAt(0)
+                                      .toUpperCase() +
+                                      achievement.category.slice(1)}
+                                  </p>
+                                  <p>
+                                    <span className="font-medium">Level:</span>{" "}
+                                    {achievement.level} |{" "}
+                                    <span className="font-medium">
+                                      Position:
+                                    </span>{" "}
+                                    {achievement.position}
+                                  </p>
+                                  <p>
+                                    <span className="font-medium">Date:</span>{" "}
+                                    {new Date(
+                                      achievement.date,
+                                    ).toLocaleDateString()}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="text-sm text-gray-600 space-y-1">
-                                <p>
-                                  <span className="font-medium">Category:</span>{" "}
-                                  {achievement.category.charAt(0).toUpperCase() + achievement.category.slice(1)}
-                                </p>
-                                <p>
-                                  <span className="font-medium">Level:</span> {achievement.level} |{" "}
-                                  <span className="font-medium">Position:</span> {achievement.position}
-                                </p>
-                                <p>
-                                  <span className="font-medium">Date:</span>{" "}
-                                  {new Date(achievement.date).toLocaleDateString()}
-                                </p>
+                              <div className="flex flex-col items-end gap-2">
+                                {getStatusBadge(achievement.status)}
+                                {achievement.status === "approved" && (
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-purple-50"
+                                  >
+                                    {achievement.calculated_points} pts
+                                  </Badge>
+                                )}
                               </div>
                             </div>
-                            <div className="flex flex-col items-end gap-2">
-                              {getStatusBadge(achievement.status)}
-                              {achievement.status === "approved" && (
-                                <Badge variant="outline" className="bg-purple-50">
-                                  {achievement.calculated_points} pts
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                        ))}
+                          ),
+                        )}
                       </div>
                     </CardContent>
                   </Card>
